@@ -4,6 +4,10 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
+/**
+ * RedisHash - annotation is used to treat this entity as a persistence unit into redis, instead of caching
+ * Can be considered as a replacement for @Entity
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
