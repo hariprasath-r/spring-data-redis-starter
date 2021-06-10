@@ -8,6 +8,10 @@
 
     - Added CHANGELOG.md
 
+### Implementation
+
+    - Added Create Todo
+
 ### Configuration
 
     - Added CORS Support. 
