@@ -3,10 +3,8 @@ package in.hp.java.springdataredisstarter.controller;
 import in.hp.java.springdataredisstarter.domain.Todo;
 import in.hp.java.springdataredisstarter.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,5 +37,11 @@ public class TodoController {
         return StreamSupport
                 .stream(todoRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Todo addTodo(@RequestBody Todo todo) {
+        return todoRepository.save(todo);
     }
 }
