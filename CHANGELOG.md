@@ -7,8 +7,8 @@
 ### Configuration
     - Added CORS Support. 
     - References:
-        [HowTodoInJava - Spring CORS](https://howtodoinjava.com/spring5/webmvc/spring-mvc-cors-configuration/)
-        [Baeldung - Spring CORS](https://www.baeldung.com/spring-cors)
+        https://howtodoinjava.com/spring5/webmvc/spring-mvc-cors-configuration/
+        https://www.baeldung.com/spring-cors
 
 ## 07-JUNE-2021
 ### Implementation
