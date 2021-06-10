@@ -16,5 +16,5 @@
     - Using Jedis connector instead of lettuce
     - Added docker compose with redis alpine
     - Configured Redis Connectivity to use the default RedisConnectionFactory
-###Feature implementation
+### Feature implementation
     - Created Todo Model and Configured that to be stored as entity in Redis using @RedisHash
