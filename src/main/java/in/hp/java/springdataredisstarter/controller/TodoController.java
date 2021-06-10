@@ -44,4 +44,10 @@ public class TodoController {
     public Todo addTodo(@RequestBody Todo todo) {
         return todoRepository.save(todo);
     }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.GONE)
+    public void deleteTodos() {
+        todoRepository.deleteAll();
+    }
 }
