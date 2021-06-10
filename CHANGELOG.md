@@ -4,6 +4,11 @@
 ## 09-JUNE-2021
 ### Documentation
     - Added CHANGELOG.md
+### Configuration
+    - Added CORS Support. 
+    - References:
+        [HowTodoInJava - Spring CORS](https://howtodoinjava.com/spring5/webmvc/spring-mvc-cors-configuration/)
+        [Baeldung - Spring CORS](https://www.baeldung.com/spring-cors)
 
 ## 07-JUNE-2021
 ### Implementation

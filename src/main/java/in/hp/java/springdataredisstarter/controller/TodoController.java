@@ -3,6 +3,7 @@ package in.hp.java.springdataredisstarter.controller;
 import in.hp.java.springdataredisstarter.domain.Todo;
 import in.hp.java.springdataredisstarter.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static org.springframework.web.bind.annotation.RequestMethod.*;
+
+/**
+ * CrossOrigin - helps to configure CORS properties for this controller
+ * method           - mentions which HTTP methods are permitted
+ * maxAge           - mentions maximum time to cache pre-flight responses. default 1800 - 30min
+ * allowedHeaders   - mentions which http headers are allowed
+ * origin           - matched by host, uri, port from which the requests are allowed
+ */
+@CrossOrigin(
+        methods = {POST, GET, PUT, DELETE, PATCH, OPTIONS},
+        maxAge = 3600,
+        allowedHeaders = {"x-requested-with", "origin", "content-type", "accept", "accept-patch"},
+        origins = "*"
+)
 @RestController
 @RequestMapping("/todos")
 public class TodoController {
