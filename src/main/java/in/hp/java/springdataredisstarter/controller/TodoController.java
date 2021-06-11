@@ -39,6 +39,11 @@ public class TodoController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/{id}")
+    public Todo getTodo(@PathVariable("id") Long id) {
+        return todoRepository.findById(id).orElse(null);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Todo addTodo(@RequestBody Todo todo) {

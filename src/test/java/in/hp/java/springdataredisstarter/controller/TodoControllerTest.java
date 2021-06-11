@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -49,6 +50,20 @@ class TodoControllerTest {
     }
 
     @Test
+    public void getTodoByIdShouldReturnThatTodo() throws Exception {
+        var todo = Todo.builder()
+                .id(1212L)
+                .title("Todo Returned")
+                .build();
+
+        when(todoRepository.findById(any(Long.class))).thenReturn(Optional.of(todo));
+
+        mockMvc.perform(get("/todos/" + todo.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title", is(todo.getTitle())));
+    }
+
+    @Test
     void createTodoShouldReturnThatTodo() throws Exception {
         var todo = Todo.builder().title("Learn Redis").build();
 
@@ -69,4 +84,5 @@ class TodoControllerTest {
 
         verify(todoRepository, atLeastOnce()).deleteAll();
     }
+
 }
