@@ -1,5 +1,6 @@
 package in.hp.java.springdataredisstarter.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import in.hp.java.springdataredisstarter.domain.Todo;
 import in.hp.java.springdataredisstarter.repository.TodoRepository;
 import org.hamcrest.Matchers;
@@ -10,8 +11,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -75,6 +78,27 @@ class TodoControllerTest {
                 .characterEncoding("utf-8"))
                 .andExpect(status().is(HttpStatus.CREATED.value())) //
                 .andExpect(jsonPath("$.title", is(todo.getTitle())));
+    }
+
+    @Test
+    void createTodoShouldReturnUrl() throws Exception {
+        // given
+        var todo = Todo.builder().id(5L).title("Add hateoas backlink").build();
+        var expectUrl = "/todos/" + todo.getId();
+        var mapper = new ObjectMapper();
+        var todoJson = mapper.writeValueAsString(todo);
+        System.out.println(todoJson);
+
+        // when
+        when(todoRepository.save(any(Todo.class))).thenReturn(todo);
+        ResultActions resultActions = mockMvc.perform(post("/todos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(todoJson)
+                .characterEncoding(StandardCharsets.UTF_8.toString()));
+
+        // then
+        resultActions.andExpect(status().isCreated())
+                .andExpect(jsonPath("$.url", Matchers.endsWith(expectUrl)));
     }
 
     @Test

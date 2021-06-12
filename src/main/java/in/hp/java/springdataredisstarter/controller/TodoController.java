@@ -3,6 +3,7 @@ package in.hp.java.springdataredisstarter.controller;
 import in.hp.java.springdataredisstarter.domain.Todo;
 import in.hp.java.springdataredisstarter.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,7 +48,13 @@ public class TodoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Todo addTodo(@RequestBody Todo todo) {
-        return todoRepository.save(todo);
+        var saved = todoRepository.save(todo);
+        String href = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
+                .methodOn(this.getClass())
+                .getTodo(saved.getId()))
+                .withSelfRel().getHref();
+        saved.setUrl(href);
+        return saved;
     }
 
     @DeleteMapping
