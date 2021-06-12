@@ -57,6 +57,14 @@ public class TodoController {
         return saved;
     }
 
+    @PatchMapping("/{id}")
+    public Todo partialUpdate(@PathVariable Long id, @RequestBody Todo todo) {
+        var todoToUpdate = todoRepository.findById(id).get();
+        todoToUpdate.partialUpdate(todo);
+        todoRepository.save(todoToUpdate);
+        return todoToUpdate;
+    }
+
     @DeleteMapping
     @ResponseStatus(HttpStatus.GONE)
     public void deleteTodos() {

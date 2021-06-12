@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -22,8 +23,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(TodoController.class)
 class TodoControllerTest {
@@ -99,6 +99,27 @@ class TodoControllerTest {
         // then
         resultActions.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.url", Matchers.endsWith(expectUrl)));
+    }
+
+    @Test
+    void patchMethodShouldUpdateTheTodo() throws Exception {
+        var todo = Todo.builder().id(5L).title("Add hateoas backlink").build();
+        var mapper = new ObjectMapper();
+        var todoJson = mapper.writeValueAsString(todo);
+        System.out.println(todoJson);
+
+        when(todoRepository.findById(todo.getId())).thenReturn(Optional.of(todo));
+        when(todoRepository.save(any(Todo.class))).thenReturn(todo);
+
+        MvcResult mvcResult = mockMvc.perform(patch("/todos/" + todo.getId())
+                .content(todoJson)
+                .characterEncoding(StandardCharsets.UTF_8.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(todoJson))
+                .andReturn();
+
+        verify(todoRepository, times(1)).findById(todo.getId());
+        verify(todoRepository, times(1)).save(any(Todo.class));
     }
 
     @Test
