@@ -3,9 +3,10 @@
 ## 12-JUNE-2021
 
 ### Implementation
-### Implementation
 
     - Added hateoas backlinks for create todo
+    - Added Patch for partial update
+    - Added delete by id
 
 ## 09-JUNE-2021
 
