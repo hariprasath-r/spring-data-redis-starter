@@ -70,4 +70,10 @@ public class TodoController {
     public void deleteTodos() {
         todoRepository.deleteAll();
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.GONE)
+    public void deleteById(@PathVariable Long id) {
+        todoRepository.deleteById(id);
+    }
 }

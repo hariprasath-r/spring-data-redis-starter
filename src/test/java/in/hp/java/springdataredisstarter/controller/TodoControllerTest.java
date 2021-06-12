@@ -130,4 +130,13 @@ class TodoControllerTest {
         verify(todoRepository, atLeastOnce()).deleteAll();
     }
 
+    @Test
+    void deleteByIdShouldDeleteTheTodo() throws Exception {
+        var id = 1234L;
+        mockMvc.perform(delete("/todos/" + id))
+                .andExpect(status().isGone());
+
+        verify(todoRepository, times(1)).deleteById(id);
+    }
+
 }
